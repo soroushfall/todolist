@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row mt-4">
+    <div class="col">
+        <h2>Add Item</h2>
+    </div>
+</div>
+<form class="form-inline" action="add_todo/" method="post">
+    <input type="text" name="task_name" class="form-control mb-2 mr-sm-2"
+             id="inlineFormInputName2" placeholder="Type Here">
+    <select class="form-control mb-2 mr-sm-2" name="task_priority" id="exampleFormControlSelect1" >
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Task Name & Priority</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Completed</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for task in tasks %}
+    <tr>
+      <th scope="row">{{ task.id }}</th>
+      <td>
+        <form class="form-inline" action="edit_todo/{{ task.id }}/" method="post">
+          <div class="form-row">
+            <input type="text" class="form-control"
+                   id="validationCustom01" name="view_task_name" value="{{ task.text }}" >
+            <input type="text" class="form-control" name="view_task_priority"
+                     id="validationCustom02" value="{{ task.priority }}" >
+            <button type="submit" class="btn btn-small btn-info">Edit</button>
+          </div>
+        </form>
+      </td>
+      <td>
+        {% if task.is_complete == False %}
+        <form action="complete_todo/{{ task.id }}/" method="post">
+            <div class="float-center">
+                <button type="submit" class="btn btn-small btn-warning">Completed</button>
+            </div>
+        </form>
+        {% else %}
+            <div class="float-center">
+              <span class="badge badge-success">Completed</span>
+            </div>
+        {% endif %}
+      </td>
+      <td>
+          <form action="delete_todo/{{ task.id }}/" method="post">
+              <div class="float-rightcenter">
+                <button type="submit" class="btn btn-small btn-danger">Delete</button>
+              </div>
+          </form>
+      </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+
+{% endblock %}

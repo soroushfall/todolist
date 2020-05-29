@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row mt-4">
+    <div class="col">
+        <h2>Edit Item</h2>
+    </div>
+</div>
+<form class="form-inline" action="edit_todo/" method="post">
+    <input type="text" name="task_name" class="form-control mb-2 mr-sm-2"
+             id="inlineFormInputName2" placeholder="Type Here">
+    <select class="form-control mb-2 mr-sm-2" name="task_priority" id="exampleFormControlSelect1" >
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">
+        </th>
+      <td>{{ task.id }}</td>
+    </tr>
+
+      <td>{{ task.priority }}</td>
+      <th scope="col">
+        <form action="edit_todo/{{ task.id }}/" method="post">
+            <div class="float-rightcenter">
+              <button type="submit" class="btn btn-small btn-danger">Edit</button>
+            </div>
+        </form>
+      </th>
+      <td>
+        {% if task.is_complete == False %}
+        <form action="complete_todo/{{ task.id }}/" method="post">
+            <div class="float-center">
+                <button type="submit" class="btn btn-small btn-warning">Completed</button>
+            </div>
+        </form>
+        {% else %}
+            <div class="float-center">
+              <span class="badge badge-success">Completed</span>
+            </div>
+        {% endif %}
+      </td>
+      <td>
+          <form action="delete_todo/{{ task.id }}/" method="post">
+              <div class="float-rightcenter">
+                <button type="submit" class="btn btn-small btn-danger">Delete</button>
+              </div>
+          </form>
+      </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+
+{% endblock %}
