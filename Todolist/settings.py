@@ -25,7 +25,9 @@ SECRET_KEY = 'o73%d@r!ze8ny-#z++-*$#tkmksp$aq+1j+jrjxnx5th+y516i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://fathomless-sierra-17183.herokuapp.com/'
+]
 
 
 # Application definition
