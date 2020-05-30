@@ -4,70 +4,79 @@
 
 
 <div class="row mt-4">
-    <div class="col">
-        <h2>Add Item</h2>
-    </div>
+  <div class="col">
+    <h2>Manage Your Task Here</h2>
+  </div>
 </div>
-<form class="form-inline" action="add_todo/" method="post">
-    <input type="text" name="task_name" class="form-control mb-2 mr-sm-2"
-             id="inlineFormInputName2" placeholder="Type Here">
-    <select class="form-control mb-2 mr-sm-2" name="task_priority" id="exampleFormControlSelect1" >
+<form class="form-inline" action="{% url 'todolist:add' %}" method="post">
+  <div>
+    Task Name:
+    <input type="text" name="task_name" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
+      placeholder="Type Here">
+  </div>
+  <div>
+    Priority (low to high):
+    <select class="form-control mb-2 mr-sm-2" name="task_priority" id="exampleFormControlSelect1">
       <option>1</option>
       <option>2</option>
       <option>3</option>
       <option>4</option>
       <option>5</option>
     </select>
-    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Add Task</button>
 </form>
-
+{% if error_message %}
+  <div class="alert alert-danger" role="alert">
+    {{error_message}}
+  </div>
+{% endif %}
 <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Task Name & Priority</th>
-      <th scope="col">Edit</th>
       <th scope="col">Completed</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
   <tbody>
-  {% for task in tasks %}
+    {% for task in tasks %}
     <tr>
       <th scope="row">{{ task.id }}</th>
       <td>
-        <form class="form-inline" action="edit_todo/{{ task.id }}/" method="post">
+        <form class="form-inline" action="{% url 'todolist:edit' task.id %}" method="post">
           <div class="form-row">
-            <input type="text" class="form-control"
-                   id="validationCustom01" name="view_task_name" value="{{ task.text }}" >
-            <input type="text" class="form-control" name="view_task_priority"
-                     id="validationCustom02" value="{{ task.priority }}" >
+            <input type="text" class="form-control" id="validationCustom01" name="view_task_name"
+              value="{{ task.text }}">
+            <input type="text" class="form-control" name="view_task_priority" id="validationCustom02"
+              value="{{ task.priority }}">
             <button type="submit" class="btn btn-small btn-info">Edit</button>
           </div>
         </form>
       </td>
       <td>
         {% if task.is_complete == False %}
-        <form action="complete_todo/{{ task.id }}/" method="post">
-            <div class="float-center">
-                <button type="submit" class="btn btn-small btn-warning">Completed</button>
-            </div>
+        <form action="{% url 'todolist:complete' task.id %}" method="post">
+          <div class="float-center">
+            <button type="submit" class="btn btn-small btn-warning">Completed</button>
+          </div>
         </form>
         {% else %}
-            <div class="float-center">
-              <span class="badge badge-success">Completed</span>
-            </div>
+        <div class="float-center">
+          <span class="badge badge-success">Completed</span>
+        </div>
         {% endif %}
       </td>
       <td>
-          <form action="delete_todo/{{ task.id }}/" method="post">
-              <div class="float-rightcenter">
-                <button type="submit" class="btn btn-small btn-danger">Delete</button>
-              </div>
-          </form>
+        <form action="{% url 'todolist:delete' task.id %}" method="post">
+          <div class="float-rightcenter">
+            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+          </div>
+        </form>
       </td>
     </tr>
-  {% endfor %}
+    {% endfor %}
 
   </tbody>
 </table>

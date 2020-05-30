@@ -14,6 +14,13 @@ def index(request):
 def add_todo(request):
     task_name = request.POST["task_name"]
     task_priority = request.POST["task_priority"]
+    if not task_name:
+        tasks = Todo.objects.all().order_by("is_complete", "-priority", "-date")
+        context = {
+            'tasks': tasks,
+            "error_message": "Task name can not be empty!"
+        }
+        return render(request, 'index.html', context=context)
     Todo.objects.create(text=task_name, date=timezone.now(),
                         priority=task_priority)
     return HttpResponseRedirect("/")

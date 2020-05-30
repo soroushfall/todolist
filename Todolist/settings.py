@@ -26,6 +26,7 @@ SECRET_KEY = 'o73%d@r!ze8ny-#z++-*$#tkmksp$aq+1j+jrjxnx5th+y516i'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
     'fathomless-sierra-17183.herokuapp.com'
 ]
 
